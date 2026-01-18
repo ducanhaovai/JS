@@ -18,8 +18,8 @@ import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../translations/translations';
 
 // Type definitions
-type KeywordMode = 'OR' | 'AND';
-type FilterState = {
+const KeywordMode = 'OR' | 'AND';
+const FilterState = {
   keyword: string;
   keywordMode: KeywordMode;
   locations: string[];
@@ -53,7 +53,7 @@ const mockJobParents = [
   { id: '5', name: 'サービス・接客' },
 ];
 
-const mockJobChildren: Record<string, Array<{ id: string; name: string }>> = {
+const mockJobChildren = {
   '1': [
     { id: '1-1', name: 'システムエンジニア' },
     { id: '1-2', name: 'プログラマー' },
@@ -113,7 +113,7 @@ const AgentJobsPageSession1 = () => {
   const t = translations[language];
 
   // State
-  const [filters, setFilters] = useState<FilterState>({
+  const [filters, setFilters] = useState({
     keyword: '',
     keywordMode: 'OR',
     locations: [],
@@ -139,7 +139,7 @@ const AgentJobsPageSession1 = () => {
   const [showJobParentModal, setShowJobParentModal] = useState(false);
   const [showHighlightModal, setShowHighlightModal] = useState(false);
   const [loadingChildren, setLoadingChildren] = useState(false);
-  const [availableJobChildren, setAvailableJobChildren] = useState<Array<{ id: string; name: string }>>([]);
+   const [availableJobChildren, setAvailableJobChildren] = useState([]);
   const [resultCount, setResultCount] = useState(112321);
 
   // Fetch children when parent changes
@@ -159,10 +159,10 @@ const AgentJobsPageSession1 = () => {
   }, [filters.jobParentIds]);
 
   // Mock function to fetch children
-  const fetchChildrenByParents = async (parentIds: string[]): Promise<Array<{ id: string; name: string }>> => {
+  const fetchChildrenByParents = async (parentIds) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const allChildren: Array<{ id: string; name: string }> = [];
+        const allChildren = [];
         parentIds.forEach(parentId => {
           const children = mockJobChildren[parentId] || [];
           allChildren.push(...children);
@@ -200,7 +200,7 @@ const AgentJobsPageSession1 = () => {
     });
   };
 
-  const toggleLocation = (location: string) => {
+  const toggleLocation = (location) => {
     setFilters(prev => ({
       ...prev,
       locations: prev.locations.includes(location)
@@ -209,7 +209,7 @@ const AgentJobsPageSession1 = () => {
     }));
   };
 
-  const toggleJobParent = (parentId: string) => {
+  const toggleJobParent = (parentId) => {
     setFilters(prev => ({
       ...prev,
       jobParentIds: prev.jobParentIds.includes(parentId)
@@ -218,7 +218,7 @@ const AgentJobsPageSession1 = () => {
     }));
   };
 
-  const toggleJobChild = (childId: string) => {
+  const toggleJobChild = (childId) => {
     setFilters(prev => ({
       ...prev,
       jobChildIds: prev.jobChildIds.includes(childId)
@@ -227,7 +227,7 @@ const AgentJobsPageSession1 = () => {
     }));
   };
 
-  const toggleHighlight = (highlight: string) => {
+  const toggleHighlight = (highlight) => {
     setFilters(prev => ({
       ...prev,
       highlights: prev.highlights.includes(highlight)
@@ -263,14 +263,6 @@ const AgentJobsPageSession1 = () => {
     selected, 
     onToggle,
     loading = false 
-  }: {
-    isOpen: boolean;
-    onClose: () => void;
-    title: string;
-    options: string[] | Array<{ id: string; name: string }>;
-    selected: string[];
-    onToggle: (id: string) => void;
-    loading?: boolean;
   }) => {
     if (!isOpen) return null;
 
@@ -288,7 +280,7 @@ const AgentJobsPageSession1 = () => {
               <div className="text-center py-8 text-gray-500">Loading...</div>
             ) : (
               <div className="space-y-2">
-                {(options as any[]).map((option) => {
+                {options.map((option) => {
                   const id = typeof option === 'string' ? option : option.id;
                   const name = typeof option === 'string' ? option : option.name;
                   const isSelected = selected.includes(id);
@@ -329,11 +321,6 @@ const AgentJobsPageSession1 = () => {
     label, 
     children, 
     helperText 
-  }: { 
-    icon: any; 
-    label: string; 
-    children: React.ReactNode;
-    helperText?: string;
   }) => (
     <div className="flex gap-3">
       <div className="flex-shrink-0 pt-1">
