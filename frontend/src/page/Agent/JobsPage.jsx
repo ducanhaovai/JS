@@ -1,14 +1,15 @@
 import React from 'react';
+import AgentJobsPageSession1 from '../../component/Agent/AgentJobsPageSession1';
 
 const JobsPage = () => {
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Danh sách việc làm</h2>
-        <p className="text-gray-600">Quản lý danh sách các công việc</p>
-      </div>
-      <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-gray-700">Nội dung trang danh sách việc làm sẽ được thêm vào đây.</p>
+    <div className="flex gap-6">
+      {/* Filter Panel */}
+      <AgentJobsPageSession1 />
+      
+      {/* Job List Area - Placeholder */}
+      <div className="flex-1 bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+        <p className="text-gray-700">Danh sách việc làm sẽ hiển thị ở đây</p>
       </div>
     </div>
   );
