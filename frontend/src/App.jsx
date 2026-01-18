@@ -11,6 +11,7 @@ import ContactPage from './page/Agent/ContactPage';
 import FAQPage from './page/Agent/FAQPage';
 import TermsPage from './page/Agent/TermsPage';
 import HotlinePage from './page/Agent/HotlinePage';
+import JobsDetail from './page/Agent/JobsDetail';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/agent" element={<AgentLayout />}>
             <Route index element={<HomePage />} />
             <Route path="jobs" element={<JobsPage />} />
+            <Route path="jobs/:jobId" element={<JobsDetail />} />
             <Route path="candidates" element={<CandidatesPage />} />
             <Route path="nominations" element={<NominationsPage />} />
             <Route path="payment-history" element={<PaymentHistoryPage />} />
