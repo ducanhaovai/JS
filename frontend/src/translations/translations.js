@@ -57,6 +57,23 @@ export const translations = {
     
     // Header
     userGuide: 'Hướng dẫn sử dụng',
+    
+    // Session 9
+    recommendCandidate: 'Tiến cử ứng viên',
+    copyJobURL: 'Sao chép URL việc làm (dành cho ứng viên)',
+    download: 'Tải xuống',
+    keep: 'Lưu',
+    askQuestion: 'Đặt câu hỏi',
+    tableOfContents: 'Mục lục',
+    applicationRequirements: 'Điều kiện ứng tuyển',
+    selectionInformation: 'Thông tin tuyển chọn',
+    companyInformation: 'Thông tin công ty',
+    jobSummary: 'Tóm tắt việc làm',
+    referralFeeInformation: 'Thông tin phí giới thiệu',
+    questionsAtRecommendation: 'Câu hỏi khi tiến cử',
+    similarJobs: 'Việc làm tương tự',
+    downloadPDF: 'Tải xuống PDF',
+    downloadExcel: 'Tải xuống Excel',
   },
   en: {
     // Session 1
@@ -116,6 +133,23 @@ export const translations = {
     
     // Header
     userGuide: 'User Guide',
+    
+    // Session 9
+    recommendCandidate: 'Recommend a candidate',
+    copyJobURL: 'Copy Job URL (for candidates)',
+    download: 'Download',
+    keep: 'Keep',
+    askQuestion: 'Ask a question',
+    tableOfContents: 'Table of Contents',
+    applicationRequirements: 'Application requirements',
+    selectionInformation: 'Selection information',
+    companyInformation: 'Company information',
+    jobSummary: 'Job summary',
+    referralFeeInformation: 'Referral fee information',
+    questionsAtRecommendation: 'Questions at the time of recommendation',
+    similarJobs: 'Similar jobs',
+    downloadPDF: 'Download PDF',
+    downloadExcel: 'Download Excel',
   },
   ja: {
     // Session 1
@@ -175,6 +209,23 @@ export const translations = {
     
     // Header
     userGuide: 'ユーザーガイド',
+    
+    // Session 9
+    recommendCandidate: '候補者を推薦する',
+    copyJobURL: '求人URL (候補者向け) をコピー',
+    download: 'ダウンロード',
+    keep: 'キープ',
+    askQuestion: '質問する',
+    tableOfContents: '目次',
+    applicationRequirements: '応募条件',
+    selectionInformation: '選考情報',
+    companyInformation: '企業情報',
+    jobSummary: '求人概要',
+    referralFeeInformation: '紹介料情報',
+    questionsAtRecommendation: '推薦時の質問',
+    similarJobs: '似たような求人',
+    downloadPDF: 'PDFをダウンロード',
+    downloadExcel: 'Excelをダウンロード',
   },
 };
 

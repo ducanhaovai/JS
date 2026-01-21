@@ -5,6 +5,8 @@ import {
   Filter,
   ExternalLink,
   Eye,
+  Edit,
+  Trash2,
   MoreVertical,
   ChevronLeft,
   ChevronRight,
@@ -19,9 +21,10 @@ import {
   Clock,
   XCircle,
   AlertCircle,
+  Plus,
 } from 'lucide-react';
 
-const NominationsPage = () => {
+const AdminNominationsPage = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -40,6 +43,7 @@ const NominationsPage = () => {
       jobTitle: 'Software Engineer',
       jobId: 'JOB001',
       companyName: 'Tech Company A',
+      collaboratorName: 'CTV001',
       status: 'pending',
       statusLabel: 'Đang chờ',
       appliedDate: '2025-01-15',
@@ -54,6 +58,7 @@ const NominationsPage = () => {
       jobTitle: 'Project Manager',
       jobId: 'JOB002',
       companyName: 'Business Corp',
+      collaboratorName: 'CTV002',
       status: 'interviewed',
       statusLabel: 'Đã phỏng vấn',
       appliedDate: '2025-01-10',
@@ -68,6 +73,7 @@ const NominationsPage = () => {
       jobTitle: 'Frontend Developer',
       jobId: 'JOB003',
       companyName: 'Web Solutions',
+      collaboratorName: 'CTV003',
       status: 'accepted',
       statusLabel: 'Đã nhận việc',
       appliedDate: '2025-01-05',
@@ -82,6 +88,7 @@ const NominationsPage = () => {
       jobTitle: 'Backend Developer',
       jobId: 'JOB004',
       companyName: 'Tech Startup',
+      collaboratorName: 'CTV001',
       status: 'rejected',
       statusLabel: 'Đã từ chối',
       appliedDate: '2025-01-08',
@@ -96,6 +103,7 @@ const NominationsPage = () => {
       jobTitle: 'DevOps Engineer',
       jobId: 'JOB005',
       companyName: 'Cloud Services',
+      collaboratorName: 'CTV004',
       status: 'pending',
       statusLabel: 'Đang chờ',
       appliedDate: '2025-01-20',
@@ -110,6 +118,7 @@ const NominationsPage = () => {
       jobTitle: 'UI/UX Designer',
       jobId: 'JOB006',
       companyName: 'Design Studio',
+      collaboratorName: 'CTV002',
       status: 'interviewed',
       statusLabel: 'Đã phỏng vấn',
       appliedDate: '2025-01-12',
@@ -124,6 +133,7 @@ const NominationsPage = () => {
       jobTitle: 'Data Analyst',
       jobId: 'JOB007',
       companyName: 'Data Corp',
+      collaboratorName: 'CTV005',
       status: 'accepted',
       statusLabel: 'Đã nhận việc',
       appliedDate: '2025-01-03',
@@ -138,6 +148,7 @@ const NominationsPage = () => {
       jobTitle: 'QA Engineer',
       jobId: 'JOB008',
       companyName: 'Quality Assurance Inc',
+      collaboratorName: 'CTV003',
       status: 'pending',
       statusLabel: 'Đang chờ',
       appliedDate: '2025-01-18',
@@ -168,15 +179,15 @@ const NominationsPage = () => {
   const getStatusIcon = (status) => {
     switch (status) {
       case 'pending':
-        return <Clock className="w-4 h-4" />;
+        return <Clock className="w-3.5 h-3.5" />;
       case 'interviewed':
-        return <AlertCircle className="w-4 h-4" />;
+        return <AlertCircle className="w-3.5 h-3.5" />;
       case 'accepted':
-        return <CheckCircle className="w-4 h-4" />;
+        return <CheckCircle className="w-3.5 h-3.5" />;
       case 'rejected':
-        return <XCircle className="w-4 h-4" />;
+        return <XCircle className="w-3.5 h-3.5" />;
       default:
-        return <Clock className="w-4 h-4" />;
+        return <Clock className="w-3.5 h-3.5" />;
     }
   };
 
@@ -210,6 +221,13 @@ const NominationsPage = () => {
     console.log('Search:', { searchQuery, statusFilter, dateFrom, dateTo });
   };
 
+  const handleDelete = (id) => {
+    if (window.confirm(`Bạn có chắc muốn xóa đơn tiến cử ${id}?`)) {
+      // TODO: Implement delete logic
+      console.log('Delete nomination:', id);
+    }
+  };
+
   const filteredNominations = nominations.filter((nom) => {
     if (statusFilter && nom.status !== statusFilter) return false;
     if (searchQuery) {
@@ -218,7 +236,8 @@ const NominationsPage = () => {
         nom.candidateName.toLowerCase().includes(query) ||
         nom.jobTitle.toLowerCase().includes(query) ||
         nom.companyName.toLowerCase().includes(query) ||
-        nom.id.toLowerCase().includes(query)
+        nom.id.toLowerCase().includes(query) ||
+        nom.collaboratorName.toLowerCase().includes(query)
       );
     }
     return true;
@@ -227,45 +246,52 @@ const NominationsPage = () => {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Filter Section */}
-      <div className="bg-white rounded-2xl p-4 border border-gray-200 mb-4 flex-shrink-0">
+      <div className="bg-white rounded-lg p-3 border border-gray-200 mb-3 flex-shrink-0">
         {/* Search Bar */}
-        <div className="flex items-center gap-3 flex-wrap mb-4">
-          <div className="flex-1 min-w-[300px]">
+        <div className="flex items-center gap-2 flex-wrap mb-3">
+          <div className="flex-1 min-w-[250px]">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Tìm kiếm theo tên ứng viên, job title, công ty, ID..."
+                placeholder="Tìm kiếm theo tên ứng viên, job title, công ty, ID, CTV..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-600 text-sm"
+                className="w-full pl-10 pr-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-xs"
               />
             </div>
           </div>
           <button
             onClick={handleSearch}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-700 transition-colors flex items-center gap-2"
+            className="px-4 py-1.5 bg-blue-600 text-white rounded-lg font-semibold text-xs hover:bg-blue-700 transition-colors flex items-center gap-1.5"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-3.5 h-3.5" />
             Tìm kiếm
           </button>
           <button
             onClick={handleReset}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-bold text-sm hover:bg-gray-200 transition-colors"
+            className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg font-semibold text-xs hover:bg-gray-200 transition-colors"
           >
             Reset
+          </button>
+          <button
+            onClick={() => navigate('/admin/nominations/create')}
+            className="px-3 py-1.5 bg-yellow-400 text-gray-900 rounded-lg font-semibold text-xs hover:bg-yellow-500 transition-colors flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            + Thêm đơn tiến cử
           </button>
         </div>
 
         {/* Additional Filters */}
-        <div className="flex items-center gap-4 flex-wrap">
-          <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-gray-500" />
-            <label className="text-sm font-bold text-gray-900">Trạng thái:</label>
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-1.5">
+            <Filter className="w-3.5 h-3.5 text-gray-500" />
+            <label className="text-xs font-semibold text-gray-900">Trạng thái:</label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               <option value="">Tất cả</option>
               <option value="pending">Đang chờ</option>
@@ -274,43 +300,43 @@ const NominationsPage = () => {
               <option value="rejected">Đã từ chối</option>
             </select>
           </div>
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-bold text-gray-900">Từ ngày:</label>
+          <div className="flex items-center gap-1.5">
+            <label className="text-xs font-semibold text-gray-900">Từ ngày:</label>
             <input
               type="date"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-bold text-gray-900">Đến ngày:</label>
+          <div className="flex items-center gap-1.5">
+            <label className="text-xs font-semibold text-gray-900">Đến ngày:</label>
             <input
               type="date"
               value={dateTo}
               onChange={(e) => setDateTo(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
           </div>
         </div>
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex items-center justify-between mb-4 flex-shrink-0">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between mb-3 flex-shrink-0">
+        <div className="flex items-center gap-1.5">
           <button
             onClick={() => setCurrentPage(1)}
             disabled={currentPage === 1}
-            className="px-2 py-1 bg-white border border-gray-300 rounded text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-1.5 py-1 bg-white border border-gray-300 rounded text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ChevronsLeft className="w-4 h-4" />
+            <ChevronsLeft className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-2 py-1 bg-white border border-gray-300 rounded text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-1.5 py-1 bg-white border border-gray-300 rounded text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3.5 h-3.5" />
           </button>
           {[...Array(Math.min(7, totalPages))].map((_, i) => {
             const pageNum = i + 1;
@@ -318,9 +344,9 @@ const NominationsPage = () => {
               <button
                 key={pageNum}
                 onClick={() => setCurrentPage(pageNum)}
-                className={`px-3 py-1 rounded text-sm font-bold transition-colors ${
+                className={`px-2.5 py-1 rounded text-xs font-semibold transition-colors ${
                   currentPage === pageNum
-                    ? 'bg-red-600 text-white'
+                    ? 'bg-blue-600 text-white'
                     : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
               >
@@ -331,16 +357,16 @@ const NominationsPage = () => {
           <button
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-2 py-1 bg-white border border-gray-300 rounded text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-1.5 py-1 bg-white border border-gray-300 rounded text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setCurrentPage(totalPages)}
             disabled={currentPage === totalPages}
-            className="px-2 py-1 bg-white border border-gray-300 rounded text-sm font-bold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-1.5 py-1 bg-white border border-gray-300 rounded text-xs font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <ChevronsRight className="w-4 h-4" />
+            <ChevronsRight className="w-3.5 h-3.5" />
           </button>
         </div>
         <div className="flex items-center gap-2">
@@ -350,40 +376,41 @@ const NominationsPage = () => {
               setItemsPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="px-3 py-1 border border-gray-300 rounded text-sm font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
+            className="px-2.5 py-1 border border-gray-300 rounded text-xs font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             <option value="20">20</option>
             <option value="50">50</option>
             <option value="100">100</option>
           </select>
-          <span className="text-sm text-gray-700 font-bold">{totalItems} items</span>
+          <span className="text-xs text-gray-700 font-semibold">{totalItems} items</span>
         </div>
       </div>
 
       {/* Table */}
-      <div className="flex-1 overflow-y-auto bg-white rounded-2xl border border-gray-200 min-h-0 relative">
+      <div className="flex-1 overflow-y-auto bg-white rounded-lg border border-gray-200 min-h-0 relative">
         <div className="overflow-x-auto h-full">
           <table className="w-full">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-3 text-center text-xs font-bold text-gray-900 border-b border-gray-200 w-12">
+                <th className="px-3 py-2 text-center text-xs font-semibold text-gray-900 border-b border-gray-200 w-10">
                   <input
                     type="checkbox"
                     checked={selectedRows.size === filteredNominations.length && filteredNominations.length > 0}
                     onChange={handleSelectAll}
-                    className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-600"
+                    className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
                   />
                 </th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">ID</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Ứng viên</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Job</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Công ty</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Trạng thái</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Ngày tiến cử</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Ngày PV</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Phí giới thiệu</th>
-                <th className="px-4 py-3 text-left text-xs font-bold text-gray-900 border-b border-gray-200">Lương</th>
-                <th className="px-4 py-3 text-center text-xs font-bold text-gray-900 border-b border-gray-200">Thao tác</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">ID</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Ứng viên</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Job</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Công ty</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">CTV</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Trạng thái</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Ngày tiến cử</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Ngày PV</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Phí giới thiệu</th>
+                <th className="px-3 py-2 text-left text-xs font-semibold text-gray-900 border-b border-gray-200">Lương</th>
+                <th className="px-3 py-2 text-center text-xs font-semibold text-gray-900 border-b border-gray-200">Thao tác</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -392,67 +419,75 @@ const NominationsPage = () => {
                   key={nomination.id}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  <td className="px-4 py-3 text-center">
+                  <td className="px-3 py-2 text-center">
                     <input
                       type="checkbox"
                       checked={selectedRows.has(index)}
                       onChange={() => handleSelectRow(index)}
-                      className="w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-600"
+                      className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
                     />
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-3 py-2">
                     <button
-                      onClick={() => navigate(`/agent/nominations/${nomination.id}`)}
+                      onClick={() => navigate(`/admin/nominations/${nomination.id}`)}
                       className="text-blue-600 hover:text-blue-800 font-medium text-xs flex items-center gap-1"
                     >
                       {nomination.id}
                       <ExternalLink className="w-3 h-3" />
                     </button>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-xs">
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-7 h-7 bg-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-[10px]">
                         {nomination.candidateName.charAt(0)}
                       </div>
                       <div>
                         <button
-                          onClick={() => navigate(`/agent/candidates/${nomination.candidateId}`)}
-                          className="text-sm font-semibold text-gray-900 hover:text-blue-600"
+                          onClick={() => navigate(`/admin/candidates/${nomination.candidateId}`)}
+                          className="text-xs font-semibold text-gray-900 hover:text-blue-600"
                         >
                           {nomination.candidateName}
                         </button>
-                        <p className="text-xs text-gray-500">{nomination.candidateId}</p>
+                        <p className="text-[10px] text-gray-500">{nomination.candidateId}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-3 py-2">
                     <button
-                      onClick={() => navigate(`/agent/jobs/${nomination.jobId}`)}
-                      className="text-sm font-medium text-gray-900 hover:text-blue-600 flex items-center gap-1"
+                      onClick={() => navigate(`/admin/jobs/${nomination.jobId}`)}
+                      className="text-xs font-medium text-gray-900 hover:text-blue-600 flex items-center gap-1"
                     >
                       <Briefcase className="w-3 h-3" />
                       {nomination.jobTitle}
                     </button>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-1 text-sm text-gray-700">
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-1 text-xs text-gray-700">
                       <Building2 className="w-3 h-3 text-gray-400" />
                       {nomination.companyName}
                     </div>
                   </td>
-                  <td className="px-4 py-3">
-                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusColor(nomination.status)}`}>
+                  <td className="px-3 py-2">
+                    <button
+                      onClick={() => navigate(`/admin/collaborators/${nomination.collaboratorName}`)}
+                      className="text-xs font-medium text-blue-600 hover:text-blue-800"
+                    >
+                      {nomination.collaboratorName}
+                    </button>
+                  </td>
+                  <td className="px-3 py-2">
+                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold ${getStatusColor(nomination.status)}`}>
                       {getStatusIcon(nomination.status)}
                       {nomination.statusLabel}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
+                  <td className="px-3 py-2 text-xs text-gray-700">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3 text-gray-400" />
                       {new Date(nomination.appliedDate).toLocaleDateString('vi-VN')}
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">
+                  <td className="px-3 py-2 text-xs text-gray-700">
                     {nomination.interviewDate !== '—' ? (
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3 text-gray-400" />
@@ -462,24 +497,35 @@ const NominationsPage = () => {
                       <span className="text-gray-400">—</span>
                     )}
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-1 text-xs font-semibold text-gray-900">
                       <DollarSign className="w-3 h-3 text-green-600" />
                       {nomination.referralFee > 0 ? `${nomination.referralFee.toLocaleString('vi-VN')}đ` : '—'}
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-700">{nomination.salary}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-center gap-2">
+                  <td className="px-3 py-2 text-xs text-gray-700">{nomination.salary}</td>
+                  <td className="px-3 py-2">
+                    <div className="flex items-center justify-center gap-1.5">
                       <button
-                        onClick={() => navigate(`/agent/nominations/${nomination.id}`)}
+                        onClick={() => navigate(`/admin/nominations/${nomination.id}`)}
                         className="text-blue-600 hover:text-blue-800 p-1 rounded hover:bg-blue-50 transition-colors"
                         title="Xem chi tiết"
                       >
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-3.5 h-3.5" />
                       </button>
-                      <button className="text-gray-600 hover:text-gray-800 p-1 rounded hover:bg-gray-100 transition-colors">
-                        <MoreVertical className="w-4 h-4" />
+                      <button
+                        onClick={() => navigate(`/admin/nominations/${nomination.id}/edit`)}
+                        className="text-gray-600 hover:text-gray-800 p-1 rounded hover:bg-gray-100 transition-colors"
+                        title="Chỉnh sửa"
+                      >
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(nomination.id)}
+                        className="text-red-600 hover:text-red-800 p-1 rounded hover:bg-red-50 transition-colors"
+                        title="Xóa"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </td>
@@ -493,4 +539,4 @@ const NominationsPage = () => {
   );
 };
 
-export default NominationsPage;
+export default AdminNominationsPage;

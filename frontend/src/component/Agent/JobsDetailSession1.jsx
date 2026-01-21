@@ -68,7 +68,7 @@ const JobsDetailSession1 = () => {
   const job = mockJobDetail;
 
   return (
-    <div className="w-3/4">
+    <div className="w-full">
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         <div className="flex gap-6">
           {/* Left Column - 3/4 width */}

@@ -104,7 +104,7 @@ const JobsDetailSession3 = () => {
   };
 
   return (
-    <div className="w-3/4 mt-6 space-y-6">
+    <div className="w-full">
       {/* Company Information Section */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         {/* Header */}

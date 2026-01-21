@@ -153,7 +153,7 @@ const JobsDetailSession6 = () => {
   const t = translations[language] || translations.vi;
 
   return (
-    <div className="w-3/4 mt-6">
+    <div className="w-full">
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-4">

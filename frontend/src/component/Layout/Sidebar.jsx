@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutGrid,
   Flag,
@@ -20,6 +20,7 @@ import { translations } from '../../translations/translations';
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const t = translations[language];
   const [showNominationSubmenu, setShowNominationSubmenu] = useState(false);
@@ -45,6 +46,13 @@ const Sidebar = () => {
     }
     return location.pathname.startsWith(path);
   };
+
+  // Auto-expand submenu if on nominations page
+  useEffect(() => {
+    if (location.pathname.startsWith('/agent/nominations')) {
+      setShowNominationSubmenu(true);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="w-64 bg-white h-screen flex flex-col shadow-sm">
@@ -90,7 +98,10 @@ const Sidebar = () => {
                 <div key={item.id}>
                   {item.hasSubmenu ? (
                     <button
-                      onClick={() => setShowNominationSubmenu(!showNominationSubmenu)}
+                      onClick={() => {
+                        setShowNominationSubmenu(!showNominationSubmenu);
+                        navigate(item.path);
+                      }}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                         active
                           ? 'bg-gray-100 text-blue-600'
